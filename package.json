@@ -19,6 +19,12 @@
   },
   "homepage": "https://github.com/cscholze/node-webserver#readme",
   "dependencies": {
-    "express": "^4.13.4"
+    "bower": "^1.7.7",
+    "express": "^4.13.4",
+    "jade": "^1.11.0",
+    "node-cal": "github:cscholze/node-cal"
+  },
+  "devDependencies": {
+    "bower": "^1.7.7"
   }
 }

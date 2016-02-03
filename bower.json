@@ -1,0 +1,21 @@
+{
+  "name": "node-webserver",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "Caleb Scholze <jcsdevel@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/cscholze/node-webserver",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "Font-Awesome#^4.5.0"
+  }
+}

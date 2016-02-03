@@ -2,7 +2,25 @@
 
 const express = require('express');
 const app = express();
+const Month = require('./node_modules/node-cal/lib/month');
 const PORT = process.env.PORT || 3000;
+
+app.set('view engine', 'jade');
+
+// Returns a random integer between min (included) and max (excluded)
+// Using Math.round() will give you a non-uniform distribution!
+const getRandomInt = function (min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+
+// ROUTE: root
+app.get('/', (req, res) => {
+  res.render('index', {
+    title: 'Super Cool App',
+    date: new Date()
+  });
+});
 
 
 // ROUTE: hello
@@ -26,20 +44,49 @@ app.get('/hello', (req, res) => {
 
   console.log('QUERY PARAMS >>\n', req.query);
 
+
   // wait for all letters have sent
   setTimeout( () => {
     res.end();
   }, MSG.length*500 + 1000 );
 });
 
-app.param(['start', 'end'], function (req, res, next, value) {
-  console.log('CALLED ONLY ONCE with', value);
-  next();
+
+
+
+// ROUTE: cal year
+//
+//
+//
+//
+
+
+// ROUTE: cal month
+app.get('/cal/:month/:year', (req, res) => {
+  const month = +req.params.month;
+  const year = +req.params.year;
+  let output = Month.generateMonth(month, year);;
+
+  // produce string output for the month
+  output.forEach( (line) => {
+      res.write(`<pre>${line}</pre>`);
+  });
+  res.end();
 });
 
+
 // ROUTE: random
-app.get('/random/:start/:end', (req, res) => {
-  res.status(200).send(Math.random(start, end).toString());
+app.get('/random', (req, res) => {
+  res.status(200).send(Math.random().toString());
+});
+
+
+// ROUTE: random with route params
+app.get('/random/:min/:max', (req, res) => {
+  const min = req.params.min;
+  const max = req.params.max;
+
+  res.status(200).send(getRandomInt( +min, +max ).toString());
 });
 
 

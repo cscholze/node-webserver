@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/cscholze/node-webserver#readme",
   "dependencies": {
+    "body-parser": "^1.14.2",
     "bower": "^1.7.7",
     "express": "^4.13.4",
     "jade": "^1.11.0",

@@ -5,6 +5,7 @@ const path = require('path');
 const app = express();
 const Month = require('./node_modules/node-cal/lib/month');
 const PORT = process.env.PORT || 3000;
+const bodyParser = require('body-parser');
 
 // app.set makes available to every engine
 app.set('view engine', 'jade');
@@ -12,16 +13,19 @@ app.set('view engine', 'jade');
 // app.locals exposes to all rendering engines
 app.locals.title = 'THE Super Cool App';
 
-// Returns a random integer between min (included) and max (excluded)
-// Using Math.round() will give you a non-uniform distribution!
-const getRandomInt = function (min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
-}
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // create statis route to serve 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+
+// Returns a random integer between min (included) and max (excluded)
+// Using Math.round() will give you a non-uniform distribution!
+const getRandomInt = function (min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+};
 
 
 // ROUTE: root
@@ -36,15 +40,13 @@ app.get('/', (req, res) => {
 
 // ROUTE: contact
 app.get('/contact', (req, res) => {
-  if (req.query.name) {
-    res.send(`<h1>Thanks #{res.query.name} for contacting</h1>`);
-  }
-
   res.render('contact');
 });
 
 app.post('/contact', (req, res) => {
-  res.render('contact');
+  debugger;
+  const name = req.body.name;
+  res.send(`<h1>Thanks for contacting us #{name}<h1>`);
 });
 
 

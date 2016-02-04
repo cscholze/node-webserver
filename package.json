@@ -23,6 +23,7 @@
     "bower": "^1.7.7",
     "express": "^4.13.4",
     "jade": "^1.11.0",
+    "multer": "^1.1.0",
     "node-cal": "github:cscholze/node-cal",
     "node-sass-middleware": "^0.9.7"
   },

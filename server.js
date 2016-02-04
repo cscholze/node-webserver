@@ -1,33 +1,40 @@
 'use strict';
 
-const express = require('express');
-const path = require('path');
-const app = express();
-const Month = require('./node_modules/node-cal/lib/month');
 const PORT = process.env.PORT || 3000;
+const express = require('express');
+const app = express();
+const path = require('path');
+const fs = require('fs');
+const Month = require('./node_modules/node-cal/lib/month');
 const bodyParser = require('body-parser');
+const multer  = require('multer')
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'tmp/uploads');
+  },
+  filename: function (req, file, cb) {
+    console.log('FILE\n', file);
+    cb(null, file.originalname);
+  }
+});
+const upload = multer({ storage: storage });
 
+
+// SETUP MIDDLEWARE
 // app.set makes available to every engine
 app.set('view engine', 'jade');
+
+// create static route to serve 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // app.locals exposes to all rendering engines
 app.locals.title = 'THE Super Cool App';
 
-
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// create statis route to serve 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(bodyParser.urlencoded({ extended: false }));
 
 
 
-// Returns a random integer between min (included) and max (excluded)
-// Using Math.round() will give you a non-uniform distribution!
-const getRandomInt = function (min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
-};
-
-
+// ROUTES
 // ROUTE: root
 app.get('/', (req, res) => {
   res.render('index', {
@@ -35,7 +42,6 @@ app.get('/', (req, res) => {
     date: new Date()
   });
 });
-
 
 
 // ROUTE: contact
@@ -47,6 +53,27 @@ app.post('/contact', (req, res) => {
   debugger;
   const name = req.body.name;
   res.send(`<h1>Thanks for contacting us #{name}<h1>`);
+});
+
+
+
+// ROUTE sendPhoto
+app.get('/sendphoto', (req,res) => {
+  res.render('sendphoto');
+});
+
+app.post('/sendphoto', upload.single('image'), (req,res) => {
+  res.send('<h1>Thanks for sending us your photo</h1>');
+  const oldPath = `tmp/uploads/${req.file.originalname}`;
+  const newPath = `tmp/uploads/${req.body.filename}${req.body.extension}`;
+
+  // rename image if user has entered values, else store as originalfilename
+  //
+  if (req.body.filename && req.body.extension) {
+    fs.rename(oldPath, newPath, (err) => {
+      if (err) throw err;
+    });
+  }
 });
 
 
@@ -78,6 +105,14 @@ app.get('/hello', (req, res) => {
     res.end();
   }, MSG.length*500 + 1000 );
 });
+
+// Returns a random integer between min (included) and max (excluded)
+// Using Math.round() will give you a non-uniform distribution!
+const getRandomInt = function (min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+};
+
+
 
 
 

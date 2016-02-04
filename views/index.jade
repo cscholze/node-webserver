@@ -2,12 +2,17 @@ doctype html
 html
   head
     title #{title}
+    link(type="text/css", href="../vendors/font-awesome/css/font-awesome.min.css", rel="stylesheet")
   body
     h1 Welcome to my Cal
     h4 Today is #{date.toLocaleDateString()}
+    button Click here to see today's calendar!
+    div#view-cal
     p to get the a month calendar set URL to:
-    p. /cal/
-      b month
-      /
-      b year
+    p .../cal/<b>month</b>/<b>year</b>
 
+    i.fa.fa-home.fa-fw Home
+    img(src="../img/home.png")
+
+    script(src="../vendors/jquery/dist/jquery.js")
+    script(src="../js/app.js")

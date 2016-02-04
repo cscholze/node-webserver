@@ -1,17 +1,27 @@
 'use strict';
 
 const express = require('express');
+const path = require('path');
 const app = express();
 const Month = require('./node_modules/node-cal/lib/month');
 const PORT = process.env.PORT || 3000;
 
+// app.set makes available to every engine
 app.set('view engine', 'jade');
+
+// app.locals exposes to all rendering engines
+app.locals.title = 'THE Super Cool App';
 
 // Returns a random integer between min (included) and max (excluded)
 // Using Math.round() will give you a non-uniform distribution!
 const getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
+
+// create statis route to serve 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 
 // ROUTE: root
@@ -21,6 +31,22 @@ app.get('/', (req, res) => {
     date: new Date()
   });
 });
+
+
+
+// ROUTE: contact
+app.get('/contact', (req, res) => {
+  if (req.query.name) {
+    res.send(`<h1>Thanks #{res.query.name} for contacting</h1>`);
+  }
+
+  res.render('contact');
+});
+
+app.post('/contact', (req, res) => {
+  res.render('contact');
+});
+
 
 
 // ROUTE: hello

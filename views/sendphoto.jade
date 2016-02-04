@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    title #{title}
+    link(type='text/css', rel='stylesheet', href='vendors/bootstrap/dist/css/bootstrap.min.css')
+  body
+    .container
+      h1 Send us photos of you enjoying cal.js
+
+      form(method='post', enctype='multipart/form-data')
+        input.form-group(type='file', name='image', accept=".png,.jpg,.jpeg,.gif")
+        input.form-group(type='text', name='filename', placeholder='filename')
+        select.form-group(name='extension')
+          option(value='.jpg') .jpg
+          option(value='.jpeg') .jpeg
+          option(value='.png') .png
+          option(value='.gif') .png
+        input.form-group(type='submit', value='Share your photo!')
+
+      button.home Return home
+
+    script(src="../vendors/jquery/dist/jquery.js")
+    script(src="../js/app.js")

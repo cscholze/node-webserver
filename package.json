@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -25,9 +27,11 @@
     "jade": "^1.11.0",
     "multer": "^1.1.0",
     "node-cal": "github:cscholze/node-cal",
-    "node-sass-middleware": "^0.9.7"
+    "node-sass-middleware": "^0.9.7",
+    "snyk": "^1.83.0"
   },
   "devDependencies": {
     "bower": "^1.7.7"
-  }
+  },
+  "snyk": true
 }
